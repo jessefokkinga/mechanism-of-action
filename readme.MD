@@ -15,13 +15,13 @@ Based on this data, we aim to create an algorithm that predicts the simulteanous
 
 There are 207 MoA outcomes that we aim to predict. Furthermore, there are also 403 MoA targets that do not necessarily need to be predicted (which I later refer to as *non scored targets*). These *non scored* targets may still be used to enhance the performace of the algorithm, but its outcomes are not known for the test data. 
 
-##Solution overview
+## Solution overview
 
 The approach in this repository is utilizing three deep learning models. It combines two neural feedforward neural networks with a 
 [TabNet](https://arxiv.org/abs/1908.07442?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%253A+arxiv%252FQSXk+%2528ExcitingAds%2521+cs+updates+on+arXiv.org%2529) model. 
 All models are implemented via PyTorch.
 
-###Preprocessing
+### Preprocessing
 
 Because all used models are based on deep learning based and due to the nature of the data, there is not much feature engineering going on. Some preprocessing steps
 that prepare the data before we feed it to the models are the following:
