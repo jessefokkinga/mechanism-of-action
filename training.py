@@ -10,9 +10,9 @@ import numpy as np
 import pandas as pd
 
 # Run pre-processing script prior to training procedure
-from models import feed_forward_net, neural_net_model_transfer_learning,TabularDataset, TransferLearningScheduler, \
+from models import simple_neural_net, transfer_learning_neural_net,TabularDataset, TransferLearningScheduler, \
     train_func, valid_func, SmoothBCEwLogits
-from preprocessing import perform_preprocessing
+from processing import perform_preprocessing
 
 # Run preprocessing script and merge scored with non-scored targets
 train_df, targets, targets_nonscored, _ = perform_preprocessing()
@@ -85,13 +85,12 @@ def train_model(model, tag_name, X_train, X_valid, y_train, y_valid, fine_tune_s
 
         if valid_loss < best_loss:
             best_loss = valid_loss
-            torch.save(model.state_dict(), f"neural_net_{tag_name}_fold_{fold_nb}_{seed}.pth")
+            torch.save(model.state_dict(), f"trained_models/neural_net_{tag_name}_fold_{fold_nb}_{seed}.pth")
 
-        elif (early_stop == True):
+        elif early_stop:
             step += 1
-            if (step >= early_stopping_steps):
+            if step >= early_stopping_steps:
                 break
-
 
 
 for seed in seeds:
@@ -119,9 +118,9 @@ for seed in seeds:
             loss_fn=F.binary_cross_entropy_with_logits
         )
 
-        model.save_model("tabnet_" + f"fold_{fold_nb}_{seed}")
+        model.save_model("trained_models/tabnet_" + f"fold_{fold_nb}_{seed}")
 
-        model = feed_forward_net(num_features=in_size, num_targets=out_size,
+        model = simple_neural_net(num_features=in_size, num_targets=out_size,
                            hidden_size=hidden_size)
 
         model.to(device)
@@ -130,7 +129,7 @@ for seed in seeds:
 
         fine_tune_scheduler = TransferLearningScheduler(epochs)
 
-        pretrained_model = neural_net_model_transfer_learning(in_size, out_size_full)
+        pretrained_model = transfer_learning_neural_net(in_size, out_size_full)
         pretrained_model.to(device)
 
         # Train on scored + nonscored targets
@@ -138,7 +137,7 @@ for seed in seeds:
                     y_val_all_targets,  fine_tune_scheduler=None)
 
         # Load the pretrained model with the best loss
-        pretrained_model = neural_net_model_transfer_learning(in_size, out_size_full)
+        pretrained_model = transfer_learning_neural_net(in_size, out_size_full)
         pretrained_model.load_state_dict(torch.load(f"neural_net_all_targets_{fold_nb}_{seed}.pth"))
         pretrained_model.to(device)
 

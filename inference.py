@@ -7,9 +7,9 @@ from pytorch_tabnet.tab_model import TabNetRegressor
 import numpy as np
 
 # Run pre-processing script prior to training procedure
-from models import feed_forward_net, neural_net_model_transfer_learning,TabularDataset, TransferLearningScheduler, \
+from models import simple_neural_net, transfer_learning_neural_net,TabularDataset, TransferLearningScheduler, \
     train_func, valid_func, SmoothBCEwLogits, TabularDatasetTest, inference_func
-from preprocessing import perform_preprocessing, prepare_submission
+from processing import perform_preprocessing, prepare_submission
 
 # Run preprocessing script and merge scored with non-scored targets
 train_df, targets, targets_nonscored, test_df = perform_preprocessing()
@@ -58,7 +58,7 @@ for seed in seeds:
         print("FOLDS: ", fold_nb)
 
         model = TabNetRegressor(**tabnet_params)
-        model.load_model("../input/training-notebook/tabnet_" + f"fold_{fold_nb}_{seed}.zip")
+        model.load_model("trained_models/tabnet_" + f"fold_{fold_nb}_{seed}.zip")
         preds_test = model.predict(X_test)
         preds_test = 1 / (1 + np.exp(-preds_test))
 
@@ -67,7 +67,7 @@ for seed in seeds:
         test_ds = TabularDatasetTest(X_test)
         test_dl = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
 
-        model = feed_forward_net(num_features=in_size, num_targets=out_size,
+        model = simple_neural_net(num_features=in_size, num_targets=out_size,
                                  hidden_size=hidden_size)
 
         if device == "cpu":
@@ -83,7 +83,7 @@ for seed in seeds:
 
         test_preds_nn.append(preds_test)
 
-        model = neural_net_model_transfer_learning(num_features=in_size, num_targets=out_size,
+        model = transfer_learning_neural_net(num_features=in_size, num_targets=out_size,
                                  hidden_size=hidden_size)
 
         if device == "cpu":

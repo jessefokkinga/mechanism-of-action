@@ -64,8 +64,8 @@ By default, the training procedure is done on GPU, so CUDA needs to be available
 
 ### References
 
-* "Mechanisms of Action (MoA) Prediction" https://www.kaggle.com/c/lish-moa
-* Original TabNet paper https://arxiv.org/abs/1908.07442
-* PyTorch implementation of TabNet https://github.com/dreamquark-ai/tabnet
+* https://www.kaggle.com/c/lish-moa "Mechanisms of Action (MoA) Prediction" 
+* https://arxiv.org/abs/1908.07442 TabNet: Attentive Interpretable Tabular Learning 
+* https://github.com/dreamquark-ai/tabnet PyTorch implementation of Tabnet 
 
 

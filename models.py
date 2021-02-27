@@ -5,9 +5,9 @@ from torch.nn.modules.loss import _WeightedLoss
 import numpy as np
 
 
-class feed_forward_net(nn.Module):
+class simple_neural_net(nn.Module):
     def __init__(self, num_features, num_targets, hidden_size, dropout_rate = 0.2):
-        super(feed_forward_net, self).__init__()
+        super(simple_neural_net, self).__init__()
         self.batch_norm1 = nn.BatchNorm1d(num_features)
         self.dropout1 = nn.Dropout(dropout_rate)
         self.dense1 = nn.utils.weight_norm(nn.Linear(num_features, hidden_size))
@@ -36,10 +36,10 @@ class feed_forward_net(nn.Module):
         return x
 
 
-class neural_net_model_transfer_learning(nn.Module):
+class transfer_learning_neural_net(nn.Module):
     def __init__(self, num_features, num_targets, dropout_rates = [0.5, 0.35, 0.3, 0.25],
                  hidden_size = [1500, 1250, 1000, 750]):
-        super(neural_net_model_transfer_learning, self).__init__()
+        super(transfer_learning_neural_net, self).__init__()
         self.dropout_rates = dropout_rates
         self.hidden_size = hidden_size
 
