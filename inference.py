@@ -106,7 +106,7 @@ test_preds_nn_transfer_learn = np.stack(test_preds_nn_transfer_learn)
 
 # Prepare predictions for the test data by creating a submission csv
 predictions = [test_preds_tabnet, test_preds_nn, test_preds_nn_transfer_learn]
-submission = prepare_submission(data_path= "/data", predictions = predictions, weights = [1/3,1/3,1/3])
+submission = prepare_submission(data_path= "data/", predictions = predictions, weights = [1/3,1/3,1/3])
 
 # Write submission csv to folder (this will be submitted to Kaggle)
 submission.to_csv("submission.csv", index = None)
