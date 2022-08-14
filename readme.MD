@@ -40,7 +40,7 @@ In this model I apply transfer learning by first training my network on the non-
   
 Both networks use batch normalization, dropout layers and non-linear activation function (leaky relu) between each layer. For training they both use early stopping based on a [MultilabelStratifiedKFold](https://github.com/trent-b/iterative-stratification) validation scheme, Adam for the optimization and [OneCycleLR](https://arxiv.org/abs/1708.07120) as a learning rate scheduler. [Label smoothing](https://arxiv.org/abs/1906.02629) is applied to mitigate the risk of overconfident predictions that are strongly penalized by the loss function that is used in the evaluation of the competition. 
 
-* The last model is a PyTorch implementation of TabNet that is readily available [via this implementation](https://github.com/dreamquark-ai/tabnet). Some minor tweaks have been done to the hyperparameters of the model.
+* The last model is a PyTorch implementation of TabNet that is readily available [here](https://github.com/dreamquark-ai/tabnet). Some minor tweaks have been done to the hyperparameters of the model.
 
 
 The final submission is an unweighted average of the predictions of the three models. 
