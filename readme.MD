@@ -1,6 +1,6 @@
 ## Introduction
 
-This repository includes the code to reproduce my approach to the  [Kaggle challenge](https://www.kaggle.com/c/lish-moa) of classifying drugs based on their biological activity.
+This repository contains the code to reproduce my approach to the  [Kaggle challenge](https://www.kaggle.com/c/lish-moa) of classifying drugs based on their biological activity.
 
 
 ### The challenge
