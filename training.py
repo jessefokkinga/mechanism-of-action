@@ -19,15 +19,15 @@ train_df, targets, targets_nonscored, _ = perform_preprocessing()
 all_targets = all_targets = pd.concat([targets,targets_nonscored], axis = 1)
 
 # Define parameters for during training procedure
-epochs = 24,
-batch_size = 128,
-lr = 1e-3,
-early_stopping_steps = 10,
+epochs = 24
+batch_size = 128
+lr = 1e-3
+early_stopping_steps = 10
 pct_start = 0.1
-early_stop = True,
-in_size = len(train_df.columns),
-out_size = len(targets.columns),
-out_size_full = len(targets.columns) + len(targets_nonscored.columns),
+early_stop = True
+in_size = len(train_df.columns)
+out_size = len(targets.columns)
+out_size_full = len(targets.columns) + len(targets_nonscored.columns)
 hidden_size = 1500
 number_of_splits = 10
 seeds = [0,42,1337,666,7]
