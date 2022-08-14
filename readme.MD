@@ -4,12 +4,11 @@ This repository includes the code to reproduce my approach to the  [Kaggle chall
 
 
 ### The challenge
-A mechanism of action (MoA) refers to a biochemical interaction through which a drug substance triggers a pharmacological effect. Target-identification and mechanism-of-action studies have important roles in small-molecule probe and drug discovery. 
-The goal of the Kaggle challenge is to predict multiple targets of the mechanism of action response(s) of different samples, given various inputs such as gene expression data and cell viability data. More information can be found [here](https://www.kaggle.com/c/lish-moa). 
+A mechanism of action (MoA) refers to a biochemical interaction through which a drug substance triggers a pharmacological effect. Target-identification and mechanism of action studies have important roles in small-molecule probe and drug discovery. The goal of the Kaggle challenge is to predict multiple targets of the mechanism of action response(s) of different samples, given various inputs such as gene expression data and cell viability data. More information can be found [here](https://www.kaggle.com/c/lish-moa). 
 
 
 ### The data
- Each sample in the data is treated with a specific drug, and we receive information on the dosage and time of treatment, along with a large variety of cell viability and gene expression related to the treatment. Based on this data, we aim to create an algorithm that simulteanously predicts the probability of each of the different MoA outcomes. 
+Each sample in the data is treated with a specific drug, and we receive information on the dosage and time of treatment, along with a large variety of cell viability and gene expression related to the treatment. Based on this data, we aim to create an algorithm that simulteanously predicts the probability of each of the different MoA outcomes. 
 
 There are 207 MoA outcomes that we aim to predict. Furthermore, there are also 403 MoA targets that do not necessarily need to be predicted (which I later refer to as *non scored targets*). These *non scored* targets may still be used to enhance the performace of the algorithm, but its outcomes are not known for the test data. 
 
