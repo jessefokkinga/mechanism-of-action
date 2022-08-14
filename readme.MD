@@ -20,8 +20,7 @@ All models are implemented via PyTorch.
 
 ### Preprocessing
 
-Because all used models are based on deep learning based and due to the nature of the data, there is not much feature engineering going on. Some preprocessing steps
-that prepare the data before we feed it to the models are the following:
+Because all used models are based on deep learning and due to the nature of the data, there is not much feature engineering going on. Some preprocessing steps that prepare the data before we feed it to the models are the following:
 
 * Remove rows related to control group 
 * Remove features with low variance 
