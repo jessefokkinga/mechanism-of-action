@@ -95,13 +95,16 @@ def train_model(model, tag_name, X_train, X_valid, y_train, y_valid, fine_tune_s
 
 for seed in seeds:
     mskf = MultilabelStratifiedKFold(n_splits=number_of_splits, random_state=seed, shuffle=True)
+    
     for fold_nb, (train_idx, val_idx) in enumerate(mskf.split(train_df, targets)):
         print("FOLDS: ", fold_nb)
 
+        # Prepare data
         X_train, y_train = train_df.values[train_idx, :], targets.values[train_idx, :]
         X_val, y_val = train_df.values[val_idx, :], targets.values[val_idx, :]
         y_train_all_targets, y_val_all_targets = all_targets.values[val_idx, :], all_targets.values[val_idx, :]
 
+        # Train TabNet model
         model = TabNetRegressor(**tabnet_params)
         model.fit(
             X_train=X_train,
@@ -119,32 +122,32 @@ for seed in seeds:
         )
 
         model.save_model("trained_models/tabnet_" + f"fold_{fold_nb}_{seed}")
-
+        
+        # Train simple feedforward neural network model
         model = simple_neural_net(num_features=in_size, num_targets=out_size,
                            hidden_size=hidden_size)
-
         model.to(device)
 
         train_model(model, 'standard', X_train, X_val, y_train, y_val, fine_tune_scheduler=None)
 
-        fine_tune_scheduler = TransferLearningScheduler(epochs)
-
-        pretrained_model = transfer_learning_neural_net(in_size, out_size_full)
-        pretrained_model.to(device)
+        # Train model that we will use for transfer learning 
+        model = transfer_learning_neural_net(in_size, out_size_full)
+        model.to(device)
 
         # Train on scored + nonscored targets
         train_model(model, 'all_targets', X_train, X_val, y_train_all_targets,
                     y_val_all_targets,  fine_tune_scheduler=None)
-
+        
         # Load the pretrained model with the best loss
         pretrained_model = transfer_learning_neural_net(in_size, out_size_full)
         pretrained_model.load_state_dict(torch.load(f"neural_net_all_targets_{fold_nb}_{seed}.pth"))
         pretrained_model.to(device)
 
         # Copy model without the top layer
+        fine_tune_scheduler = TransferLearningScheduler(epochs)
         final_model = fine_tune_scheduler.copy_without_last_layer(pretrained_model, in_size, out_size_full,
                                                            out_size)
 
         # Fine-tune the model on scored targets only
-        train_model(final_model, 'transfer_learn', fine_tune_scheduler, X_train, X_val, y_train, y_val)
+        train_model(final_model, 'transfer_learn', X_train, X_val, y_train, y_val, fine_tune_scheduler)
 
